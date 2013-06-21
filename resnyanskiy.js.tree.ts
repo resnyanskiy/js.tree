@@ -66,13 +66,10 @@ module Resnyanskiy {
       listNodeContent.setAttribute("href", "#");
       listNodeContent.appendChild(document.createTextNode(this.title));
 
-      var listNode: HTMLElement = createElement("span", this.isBranch ? "branch" : null, "li-" + this.id);
-      listNode.appendChild(createElement("span", "connector"));
-      listNode.appendChild(createElement("span", "icon"));
-      listNode.appendChild(listNodeContent);
-
-      var listItem: HTMLElement = createElement("li");
-      listItem.appendChild(listNode);
+      var listItem: HTMLElement = createElement("li", this.isBranch ? "branch" : null, "li-" + this.id);
+      listItem.appendChild(createElement("span", "connector"));
+      listItem.appendChild(createElement("span", "icon"));
+      listItem.appendChild(listNodeContent);
 
       if(this.isBranch)
         listItem.appendChild(createElement("ul", null, "ul-" + this.id));
@@ -94,7 +91,7 @@ module Resnyanskiy {
         var nodeId: number = parseInt(/\d+$/.exec((<HTMLElement>ev.target).parentNode.attributes["id"].value)[0], 10);
         var node: TreeNode = this.rootNode.findItem(nodeId, true)
         if(!this.toggleNodeItemsVisible(node) && (this.onBranchExpand instanceof Function)) {
-          (<HTMLElement> this.treeContainer.querySelector("li > span#li-" + nodeId)).classList.add("loading");
+          (<HTMLElement> this.treeContainer.querySelector("li#li-" + nodeId)).classList.add("loading");
           this.onBranchExpand(nodeId);
         }
       };
@@ -126,13 +123,13 @@ module Resnyanskiy {
         ulElement.appendChild(nodeItem.getView());
       }
 
-      var branchConnectorNodeList: NodeList = ulElement.querySelectorAll("span.branch > span.connector");
+      var branchConnectorNodeList: NodeList = ulElement.querySelectorAll("li.branch > span.connector");
       for(var i = 0; i < branchConnectorNodeList.length; i++) {
         var connectorNode: Node = branchConnectorNodeList[i];
         connectorNode.addEventListener("click", this.toggleBranchItemsVisibleClosure);
       }
 
-      var contentNodeList: NodeList = ulElement.querySelectorAll("span > a");
+      var contentNodeList: NodeList = ulElement.querySelectorAll("li > a");
       for(var i = 0; i < contentNodeList.length; i++) {
         var contentNode: Node = contentNodeList[i];
         contentNode.addEventListener("click", this.onNodeClickClosure);
@@ -144,11 +141,11 @@ module Resnyanskiy {
         var ulElement: Element = this.treeContainer.querySelector("ul#ul-" + node.id);
         if(ulElement.hasChildNodes()) {
           while(ulElement.firstChild) ulElement.removeChild(ulElement.firstChild);
-          (<HTMLElement>ulElement.previousSibling).classList.remove("opened");
+          (<HTMLElement>ulElement.parentNode).classList.remove("opened");
         }
         else {
           this.renderNodeItemsTo(ulElement, node);
-          (<HTMLElement>ulElement.previousSibling).classList.add("opened");
+          (<HTMLElement>ulElement.parentNode).classList.add("opened");
         }
         return true;
       }
@@ -162,7 +159,7 @@ module Resnyanskiy {
       for(var i in items)
         node.addItem(items[i]);
 
-      (<HTMLElement> this.treeContainer.querySelector("li > span#li-" + id)).classList.remove("loading");
+      (<HTMLElement> this.treeContainer.querySelector("li#li-" + id)).classList.remove("loading");
 
       if(showNodeItems)
         this.toggleNodeItemsVisible(node);

@@ -12,42 +12,42 @@
 .resnyanskiy-tree > ul.container li ul {
   padding-left: 16px;
 }
-.resnyanskiy-tree > ul.container li span span {
+.resnyanskiy-tree > ul.container li a {
+  text-decoration: none;
+  color: black;
+  border: 1px solid white;
+}
+.resnyanskiy-tree > ul.container li a:hover {
+  background-color: #F2F7FD;
+  border-color: #B8D6FB;
+}
+.resnyanskiy-tree > ul.container li:last-child {
+  background-image: none;
+}
+.resnyanskiy-tree > ul.container li span {
   height: 16px;
   width: 16px;
   display: inline-block;
   vertical-align: top;
   background-image: url(images/resnyanskiy-tree-icons.png);
 }
-.resnyanskiy-tree > ul.container li span a {
-  text-decoration: none;
-  color: black;
-  border: 1px solid white;
-}
-.resnyanskiy-tree > ul.container li span a:hover {
-  background-color: #F2F7FD;
-  border-color: #B8D6FB;
-}
-.resnyanskiy-tree > ul.container li span span.icon {
+.resnyanskiy-tree > ul.container li span.icon {
   background-position: 32px top;
 }
-.resnyanskiy-tree > ul.container li span span.connector {
+.resnyanskiy-tree > ul.container li span.connector {
   background-position: 0px bottom;
 }
-.resnyanskiy-tree > ul.container li span.branch span.icon {
+.resnyanskiy-tree > ul.container li.branch > span.icon {
   background-position: 32px bottom;
 }
-.resnyanskiy-tree > ul.container li span.branch span.connector {
+.resnyanskiy-tree > ul.container li.branch > span.connector {
   background-position: 16px top;
 }
-.resnyanskiy-tree > ul.container li span.branch.opened span.connector {
+.resnyanskiy-tree > ul.container li.branch.opened > span.connector {
   background-position: 16px bottom;
 }
-.resnyanskiy-tree > ul.container li span.branch.loading span.icon {
+.resnyanskiy-tree > ul.container li.branch.loading > span.icon {
   background-image: url(images/resnyanskiy-tree-loading.gif);
   background-position: left center;
   background-repeat: no-repeat;
-}
-.resnyanskiy-tree > ul.container li:last-child {
-  background-image: none;
 }
