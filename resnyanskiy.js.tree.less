@@ -1,0 +1,76 @@
+.resnyanskiy-tree >
+ul.container {
+  border: 1px dotted gray;
+  font-family: Tahoma;
+  font-size: 10pt;
+  padding: 1px;
+
+  li {
+    list-style-type: none;
+    background-image: url(images/resnyanskiy-tree-vline.png);
+    background-repeat: repeat-y;
+
+    ul {
+      padding-left: 16px;
+    }
+
+    span {
+      span {
+        height: 16px;
+        width: 16px;
+        display: inline-block;
+        vertical-align: top;
+        background-image: url(images/resnyanskiy-tree-icons.png);
+      }
+
+      a {
+        text-decoration: none;
+        color: black;
+        border: 1px solid white;
+
+        &:hover {
+          background-color: #F2F7FD;
+          border-color: #B8D6FB;
+        }
+      }
+    }
+
+    span {
+      span.icon {
+        background-position: 32px top;
+      }
+
+      span.connector {
+        background-position: 0px bottom;
+      }
+    }
+
+    span.branch {
+      span.icon {
+        background-position: 32px bottom;
+      }
+
+      span.connector {
+        background-position: 16px top;
+      }
+
+      &.opened {
+        span.connector {
+          background-position: 16px bottom;
+        }
+      }
+
+      &.loading {
+        span.icon {
+          background-image: url(images/resnyanskiy-tree-loading.gif);
+          background-position: left center;
+          background-repeat: no-repeat;
+        }
+      }
+    }
+
+    &:last-child {
+      background-image: none;
+    }
+  }
+}
