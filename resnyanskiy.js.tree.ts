@@ -58,8 +58,10 @@ module Resnyanskiy {
       if(!deep || result)
         return result;
 
-      for(var n in this.items)
-        return this.items[n].findItem(id, deep);
+      for(var n in this.items) {
+        result = this.items[n].findItem(id, deep);
+        if(result) return result;
+      }
     }
     //#endregion
 
