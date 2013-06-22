@@ -20,7 +20,7 @@ module Resnyanskiy {
   }
 
   export interface TreeNodeCollection extends Object {
-    [id: number]: TreeNode;
+    [id: string]: TreeNode;
   }
 
   // IComposite
@@ -34,20 +34,26 @@ module Resnyanskiy {
 
     private items: TreeNodeCollection = <TreeNodeCollection>{};
 
+    private convertId(id: number): string {
+      //if(id instanceof String)
+      //  return +id;
+      return "+" + id;
+    }
+
     //#region IComposite
     public addItem(item: TreeNode) {
       var itemId: number = item.id;
       if(this.findItem(itemId, false) == null) {
-        this.items[itemId] = item;
+        this.items[this.convertId(itemId)] = item;
       }
     }
 
     public removeItem(id: number) {
-      delete this.items[id];
+      delete this.items[this.convertId(id)];
     }
 
     public findItem(id: number, deep: bool): TreeNode {
-      var result: TreeNode = this.items[id];
+      var result: TreeNode = this.items[this.convertId(id)];
 
       if(!deep || result)
         return result;

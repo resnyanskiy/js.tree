@@ -37,7 +37,7 @@ function onBranchExpandHandler(id: number) {
         var items: Resnyanskiy.TreeNodeCollection = <Resnyanskiy.TreeNodeCollection>{};
         for(var i in data) {
           var currentItem: Resnyanskiy.ITreeNodeDataModel = data[i];
-          items[currentItem.id] = new TreeNode(currentItem.id, currentItem.title, currentItem.isBranch);
+          items["+" + currentItem.id] = new TreeNode(currentItem.id, currentItem.title, currentItem.isBranch);
         }
         tree.updateNode(id, items, true);
       }
