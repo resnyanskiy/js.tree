@@ -1,10 +1,14 @@
 module Resnyanskiy {
-  //#region shortcuts for build-in functions
+  //#region utility functions
   function createElement(tagName: string, className?: string, id?: string) {
     var result = document.createElement(tagName);
     if(className) result.className = className;
     if(id) result.id = id;
     return result;
+  }
+
+  function parseIdString(idString: string) {
+    return parseInt(/\d+$/.exec(idString)[0], 10);
   }
   //#endregion
 
@@ -85,10 +89,39 @@ module Resnyanskiy {
     private toggleBranchItemsVisibleClosure: (ev: Event) => void;
     private onNodeClickClosure: (ev: Event) => void;
 
+    private parseULElement(ulElement: HTMLUListElement, nodeId: number) {
+      var node: TreeNode = nodeId == 0 ? this.rootNode : this.rootNode.findItem(nodeId, true);
+
+      var ulElementContent: NodeList = ulElement.childNodes;
+      for(var i = 0; i < ulElementContent.length; i++) {
+        var listItem: HTMLElement = <HTMLElement> ulElementContent[i];
+        if(listItem instanceof HTMLLIElement) {
+          var id = parseIdString(listItem.id);
+          var itemsContainer: HTMLUListElement = <HTMLUListElement> listItem.querySelector("ul");
+          var isBranch = itemsContainer != undefined;
+
+          var nodeTitle: string;
+          var listItemContent: NodeList = listItem.childNodes;
+          for(var j = 0; j < listItemContent.length; j++) {
+            var item: Node = listItemContent[j];
+            if(item.nodeType == Node.TEXT_NODE) {
+              nodeTitle = item.textContent.trim();
+              break;
+            }
+          }
+
+          node.addItem(new TreeNode(id, nodeTitle, isBranch));
+          if(isBranch) this.parseULElement(itemsContainer, id);
+        }
+      }
+    }
+
+    // If "container" contains UL element with nested LI elements,
+    // they will be first in tree, then elements from "nodes"
     constructor(container: HTMLElement, nodes?: TreeNode[]) {
       //#region events closures
       this.toggleBranchItemsVisibleClosure = (ev: Event) => {
-        var nodeId: number = parseInt(/\d+$/.exec((<HTMLElement>ev.target).parentNode.attributes["id"].value)[0], 10);
+        var nodeId: number = parseIdString((<HTMLElement>ev.target).parentNode.attributes["id"].value);
         var node: TreeNode = this.rootNode.findItem(nodeId, true)
         if(!this.toggleNodeItemsVisible(node) && (this.onBranchExpand instanceof Function)) {
           (<HTMLElement> this.treeContainer.querySelector("li#li-" + nodeId)).classList.add("loading");
@@ -97,15 +130,22 @@ module Resnyanskiy {
       };
 
       this.onNodeClickClosure = (ev: Event) => {
-        var nodeId: number = parseInt(/\d+$/.exec((<HTMLElement>ev.target).parentNode.attributes["id"].value)[0], 10);
+        var nodeId: number = parseIdString((<HTMLElement>ev.target).parentNode.attributes["id"].value);
         if(this.onNodeClick instanceof Function)
           this.onNodeClick(nodeId);
       };
       //#endregion
 
+      this.rootNode = new TreeNode(0, "root", true);
+
+      var ulElement: HTMLUListElement = <HTMLUListElement> container.querySelector("ul");
+      if(ulElement) {
+        this.parseULElement(ulElement, 0);
+        container.removeChild(ulElement);
+      }
+
       this.treeContainer = createElement("ul", "container");
 
-      this.rootNode = new TreeNode(0, "root", true);
       if(nodes)
         for(var n in nodes)
           this.rootNode.addItem(nodes[n]);
