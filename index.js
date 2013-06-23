@@ -1,4 +1,3 @@
-/// <reference path="resnyanskiy.js.tree.ts" />
 var TreeNode = Resnyanskiy.TreeNode;
 var item_1_1 = new TreeNode(11, "Item_1_1", true);
 item_1_1.addItem(new TreeNode(111, "Item_1_1_1", false));
@@ -16,11 +15,9 @@ var tree = new Resnyanskiy.Tree(document.getElementById("tree"), [
 ]);
 tree.onNodeClick = onNodeClickHandler;
 tree.onBranchExpand = onBranchExpandHandler;
-// this - Tree
 function onNodeClickHandler(id) {
     document.getElementById("content").innerHTML = "Click on Node: " + id;
 }
-// this - Tree
 function onBranchExpandHandler(id) {
     var tree = this;
     setTimeout(function () {
@@ -33,7 +30,7 @@ function onBranchExpandHandler(id) {
                 };
                 for(var i in data) {
                     var currentItem = data[i];
-                    items[currentItem.id] = new TreeNode(currentItem.id, currentItem.title, currentItem.isBranch);
+                    items["+" + currentItem.id] = new TreeNode(currentItem.id, currentItem.title, currentItem.isBranch);
                 }
                 tree.updateNode(id, items, true);
             }
