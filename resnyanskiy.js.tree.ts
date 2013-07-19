@@ -13,13 +13,13 @@ module Resnyanskiy {
   //#endregion
 
   // IComponent
-  export interface ITreeNodeDataModel {
-    id: number; // positive integer, 0 for root node (invisible by default)
-    title: string;
-    isBranch: bool;
+  export interface ITreeNodeViewModel {
+    Id: number; // positive integer, 0 for root node (invisible by default)
+    Name: string;
+    IsBranch: boolean;
   }
 
-  export interface TreeNodeCollection extends Object {
+  export interface TreeNodeCollection {
     [id: string]: TreeNode;
   }
 
@@ -27,10 +27,10 @@ module Resnyanskiy {
   // interface ITreeNode extends ITreeNodeDataModel {
   //   addItem(item: ITreeNode): void;
   //   removeItem(id: number): void;
-  //   findItem(id: number, deep: bool): ITreeNode;
+  //   findItem(id: number, deep: boolean): ITreeNode;
   // }
-  export class TreeNode implements ITreeNodeDataModel {
-    constructor(public id: number, public title: string, public isBranch: bool) { }
+  export class TreeNode implements ITreeNodeViewModel {
+    constructor(public Id: number, public Name: string, public IsBranch: boolean) { }
 
     private items: TreeNodeCollection = <TreeNodeCollection>{};
 
@@ -42,7 +42,7 @@ module Resnyanskiy {
 
     //#region IComposite
     public addItem(item: TreeNode) {
-      var itemId: number = item.id;
+      var itemId: number = item.Id;
       if(this.findItem(itemId, false) == null) {
         this.items[this.convertId(itemId)] = item;
       }
@@ -52,7 +52,7 @@ module Resnyanskiy {
       delete this.items[this.convertId(id)];
     }
 
-    public findItem(id: number, deep: bool): TreeNode {
+    public findItem(id: number, deep: boolean): TreeNode {
       var result: TreeNode = this.items[this.convertId(id)];
 
       if(!deep || result)
@@ -69,22 +69,22 @@ module Resnyanskiy {
       return this.items;
     }
 
-    public hasItems(): bool {
+    public hasItems(): boolean {
       return Object.keys(this.items).length > 0;
     }
 
     public getView(): HTMLElement {
       var listNodeContent = createElement("a");
       listNodeContent.setAttribute("href", "#");
-      listNodeContent.appendChild(document.createTextNode(this.title));
+      listNodeContent.appendChild(document.createTextNode(this.Name));
 
-      var listItem: HTMLElement = createElement("li", this.isBranch ? "branch" : null, "li-" + this.id);
+      var listItem: HTMLElement = createElement("li", this.IsBranch ? "branch" : null, "li-" + this.Id);
       listItem.appendChild(createElement("span", "connector"));
       listItem.appendChild(createElement("span", "icon"));
       listItem.appendChild(listNodeContent);
 
-      if(this.isBranch)
-        listItem.appendChild(createElement("ul", null, "ul-" + this.id));
+      if(this.IsBranch)
+        listItem.appendChild(createElement("ul", null, "ul-" + this.Id));
 
       return listItem;
     }
@@ -184,9 +184,9 @@ module Resnyanskiy {
       }
     }
 
-    private toggleNodeItemsVisible(node: TreeNode): bool {
+    private toggleNodeItemsVisible(node: TreeNode): boolean {
       if(node && node.hasItems()) {
-        var ulElement: Element = this.treeContainer.querySelector("ul#ul-" + node.id);
+        var ulElement: Element = this.treeContainer.querySelector("ul#ul-" + node.Id);
         if(ulElement.hasChildNodes()) {
           while(ulElement.firstChild) ulElement.removeChild(ulElement.firstChild);
           (<HTMLElement>ulElement.parentNode).classList.remove("opened");
@@ -202,7 +202,7 @@ module Resnyanskiy {
       }
     }
 
-    public updateNode(id: number, items: TreeNodeCollection, showNodeItems?: bool) {
+    public updateNode(id: number, items: TreeNodeCollection, showNodeItems?: boolean) {
       var node: TreeNode = this.rootNode.findItem(id, true);
       for(var i in items)
         node.addItem(items[i]);
