@@ -33,13 +33,8 @@ function onBranchExpandHandler(id: number) {
     XHR.open("GET", "data.json", true);
     XHR.onreadystatechange = function(ev: Event) {
       if(this.readyState == 4) {
-        var data: Resnyanskiy.ITreeNodeDataModel[] = (<Resnyanskiy.ITreeNodeDataModel[]>JSON.parse(this.responseText));
-        var items: Resnyanskiy.TreeNodeCollection = <Resnyanskiy.TreeNodeCollection>{};
-        for(var i in data) {
-          var currentItem: Resnyanskiy.ITreeNodeDataModel = data[i];
-          items["+" + currentItem.id] = new TreeNode(currentItem.id, currentItem.title, currentItem.isBranch);
-        }
-        tree.updateNode(id, items, true);
+        var data: Resnyanskiy.ITreeNodeViewModel[] = (<Resnyanskiy.ITreeNodeViewModel[]>JSON.parse(this.responseText));
+        tree.updateNode(id, data, true);
       }
     };
     XHR.send(null);

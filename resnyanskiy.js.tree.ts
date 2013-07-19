@@ -202,10 +202,12 @@ module Resnyanskiy {
       }
     }
 
-    public updateNode(id: number, items: TreeNodeCollection, showNodeItems?: boolean) {
+    public updateNode(id: number, items: ITreeNodeViewModel[], showNodeItems?: boolean) {
       var node: TreeNode = this.rootNode.findItem(id, true);
-      for(var i in items)
-        node.addItem(items[i]);
+      for(var i in items) {
+        var item: ITreeNodeViewModel = items[i];
+        node.addItem(new TreeNode(item.Id, item.Name, item.IsBranch));
+      }
 
       (<HTMLElement> this.treeContainer.querySelector("li#li-" + id)).classList.remove("loading");
 
