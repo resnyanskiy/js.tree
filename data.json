@@ -1,5 +1,5 @@
-﻿[ {"id": 31, "title": "Item_3_1", "isBranch": false}
-, {"id": 34, "title": "Item_3_4", "isBranch": false}
-, {"id": 33, "title": "Item_3_3", "isBranch": false}
-, {"id": 32, "title": "Item_3_2", "isBranch": false}
+﻿[ {"Id": 31, "Name": "Item_3_1", "IsBranch": false}
+, {"Id": 34, "Name": "Item_3_4", "IsBranch": false}
+, {"Id": 33, "Name": "Item_3_3", "IsBranch": false}
+, {"Id": 32, "Name": "Item_3_2", "IsBranch": false}
 ]
