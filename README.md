@@ -10,12 +10,12 @@ It can be described with several "NoXXX" abstracts (means "not"):
 
 What about "YesXXX"?
 
-- Everything you need for create "treeview" based on data in JSON,  including lazy loading for subnodes, out of the box. Data model for tree node (TypeScript):
+- Everything you need for create "treeview" based on data in JSON,  including lazy loading for subnodes, out of the box. View model for tree node (TypeScript):
 
-        interface ITreeNodeDataModel {
-          id: number;
-          title: string;
-          isBranch: bool;
+        interface ITreeNodeViewModel {
+          Id: number;
+          Name: string;
+          IsBranch: boolean;
         }
 
 - Using [TypeScript](http://www.typescriptlang.org/) and [LESS](http://www.lesscss.org/) for implementation, no external dependencies, modular structure (including CSS rules) and clear code base make it simple to use in your own projects and customization.
